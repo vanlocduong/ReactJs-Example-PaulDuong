@@ -1,0 +1,72 @@
+// loi
+input is a void element tag and must neither have `children` nor use `dangerouslySetInnerHTML`. (input phai nhu sau <input defaultValue={this.props.children}/>)
+
+class Note extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render(){
+    return(
+      <div className="div-note">
+        {this.props.children}
+      </div>
+
+    );
+  }
+}
+var list;
+function  addClick() {
+  ReactDOM.render(<InputDiv/>,document.getElementById("div-list-add"))
+}
+class List extends React.Component{
+  constructor(props) {
+    super(props);
+        list = this;
+     this.state = {
+       mang: []
+     };
+  }
+  render(){
+    return(
+      <div className="div-list">
+      <div id="div-list-add"></div>
+      <button onClick={addClick}> them</button>
+        {
+          this.state.mang.map(function(note,index) {
+              return <Note key={index}> {note}</Note>
+          })
+        }
+      </div>
+    );
+  }
+  componentDidMount(){
+      var that = this;
+    $.post("/getDanhSach",function(data){
+      that.setState({mang:data});
+    });
+  }
+}
+class InputDiv extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  send(){
+      list.setState({mang: list.state.mang.concat(this.refs.txt.value)});
+      ReactDOM.unmountComponentAtNode(document.getElementById('div-list-add'));
+  }
+  render(){
+    return(
+      <div className="div-input">
+      <input type="text" ref="txt" placeholder="Enter your note!" />
+      <button onClick={() => this.send(this)}>Submit</button>
+      </div>
+    );
+  }
+}
+ReactDOM.render(
+  <div>
+    <List/>
+    <InputDiv/>
+  </div>
+
+, document.getElementById('root2'));

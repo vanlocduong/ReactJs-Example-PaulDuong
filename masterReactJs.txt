@@ -1,0 +1,66 @@
+// larger scale project quy mô hence vì thế 
+// code nhiều hiểu bản chất nó là được, gặp function nào search là được, nó tương tự như java 
+
+tao node
+-npm init
+cai modunle
+npm install express ejs
+express render 
+ejs modunle
+giai thich file index
+
+var express = require("express");
+var app =  express();
+app.use(express.static("public")); ( tat ca mọi request thì đi vào public mà dùng)
+app.set("view engine", "ejs");   ( sử dụng engine là ejs)
+app.set("views", "./views");     ( sử dụng giao diện trong thư mục views)
+app.listen(3000); 				( mở cổng 3000 khi khách hàng gọi lên server)
+app.get("/", function (req,res) {  khách hàng truy cập thì nó sẽ tải trang chủ về )req khách hàng gởi lên res server trả về
+  res.render("trangchu");
+})
+
+-cai thu vien
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script> render cái gì đó ở thẻ nào
+    <script crossorigin src="https://unpkg.com/babel-core@5.8.38/browser.min.js"></script>  để render HTML cho dể
+- cach render
+ReactDOM.render(<h1>PaulDuong ReactJS</h1>, document.getElementById('root'));  render cái gì đó, render ở đâu 
+- cach tao Component
+render() hành động quan trọng nhất  là phần từ là trạng thái của Component nên cách nhau bằng dấu , <=> mảng 
+-props
+là thuộc tính giành cho component ( dùng {} để gọi biến ) props không bao giờ thay đổi giá trị của nó ( khai báo ngay lúc khởi tạo đối tượng)	
+props đặc biệt ( props children <PaulDuong ten="PaulDuong" author="annomyous">ten khoa hoc ReactJS and NodeJS</PaulDuong> ) là các giá trị ở trong
+-state 
+-handle sự kiện 
+	<button onClick={()=>{
+        var str= props.ten + ' ' + props.author + ' ' + props.tienkhoahoc;
+          soTienCuaKhoaHoc(str)
+      }} sotien="10000">Xem So Tien</button>	
+	 function soTienCuaKhoaHoc(sotien){
+    alert(sotien);
+	}
+	
+
+
+-ReactJS
+xử lý tầng layer cho web và mobile apps (cho phép tái sử dụng các UI component)
+JSX( javascript syntax extension) 
+Components là tất cả các component nghĩ mọi thứ như là component( dể bảo trì khi làm  với larger scale project)
+Unidirectional data flow and Flux ( Flux duy trì dữ liệu một chiều)
+-Vòng đời
+Mounted chứa các phương thức được gọi khi Component được khởi tạo và insert vào DOM
+Update  chứa các phương thức được gọi khi một Component được render lại
+UnMounted  chứa các phương thức được gọi khi một Component được gở bỏ khỏi DOM
+
+Mounted ( componentWillMount, componentDidMount) 
+Update  ( componentWillReceiveProps, shouldComponentUpdate , componentWillUpdate, componentDidUpdate)
+UnMounted ( componentWillUnmount ) 
+componentWillMount được gọi trước khi render trên cả 2 client và server
+componentDidMount được gọi sau lần đầu tiên render chỉ trên client ( Thông thường chúng ta dùng phương thức này để viết các đoạn code liên quan tới delay hoặc đồng bộ API) delay(setTimeout or setInterval) AJAX DOM state updates
+componentWillReceiveProps ( được gọi ngay sau khi props được update trước khi render được gọi,  kích hoạt setNewNumber khi chúng được update) 
+shouldComponentUpdate ( trả về true or false, định nghĩa nếu component được update hoặc không, mặc định là true, nếu chắc rằng component không cần render khi state và props được update thì trả về false)
+componentWillUpdate ( được gọi trước khi render)
+componentDidUpdate ( được gọi sau khi render)
+componentWillUnmount ( được gọi sau khi ứng dụng bị đóng hoàn toàn) 
+
+
