@@ -14,6 +14,9 @@ class Note extends React.Component{
     }
 }
 var list;
+function addClick() {
+    ReactDOM.render(<InputDiv />, document.getElementById("div-list-add"))
+}
 class List extends React.Component {
     constructor(props) {
         super(props);
@@ -24,7 +27,9 @@ class List extends React.Component {
     }
     render(){
         return(
-            <div className='div-list'>
+            <div className="div-list">
+            <div id="div-list-add"></div>
+                <button onClick={addClick}> them</button>
                 {
                     this.state.mang.map(function (note, index) {
                         return <Note key={index} id={index}>{note}</Note>
@@ -38,6 +43,28 @@ class List extends React.Component {
         $.post("/getDanhSach", function (data) {
             that.setState({ mang: data });
         });
+    }
+}
+class InputDiv extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+  
+    send() {
+        $.post("/add", { note: this.refs.txt.value }, function (data) {
+            list.setState({ mang: data });
+        });
+
+        ReactDOM.unmountComponentAtNode(document.getElementById('div-list-add'));
+    }
+
+    render() {
+        return (
+            <div className="div-input">
+                <input type="text" ref="txt" placeholder="Enter your note!" />
+                <button onClick={() => this.send(this)}>Submit</button>
+            </div>
+        );
     }
 }
 ReactDOM.render(
